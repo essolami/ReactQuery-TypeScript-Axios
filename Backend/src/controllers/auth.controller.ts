@@ -75,7 +75,6 @@ export const registerUserHandler = async (
           'An email with a verification code has been sent to your email',
       });
     } catch (error) {
-      console.log(error);
       newUser.verificationCode = null;
       await newUser.save();
 
@@ -91,7 +90,6 @@ export const registerUserHandler = async (
         message: 'User with that email already exist',
       });
     }
-    console.log(err);
     next(err);
   }
 };
@@ -103,7 +101,7 @@ export const loginUserHandler = async (
 ) => {
   try {
     const { email, password } = req.body;
-    const user = await findUserByEmail({ email: email.toLowerCase() });
+    const user = await findUserByEmail({ email });
 
     // 1. Check if user exist
     if (!user) {

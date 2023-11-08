@@ -12,9 +12,6 @@ export class Post extends Model {
   @Column()
   content: string;
 
-  @Column()
-  category: string;
-
   @Column({
     default: 'default-post.png',
   })
