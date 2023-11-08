@@ -4,10 +4,10 @@ import {
   FormControl,
   Input as _Input,
   InputProps,
-} from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { FC } from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
+import { FC } from "react";
+import { Controller, useFormContext } from "react-hook-form";
 
 const Input = styled(_Input)`
   background-color: white;
@@ -29,13 +29,13 @@ const FormInput: FC<IFormInputProps> = ({ name, label, ...otherProps }) => {
   return (
     <Controller
       control={control}
-      defaultValue=''
+      defaultValue=""
       name={name}
       render={({ field }) => (
         <FormControl fullWidth sx={{ mb: 2 }}>
           <Typography
-            variant='body2'
-            sx={{ color: '#2363eb', mb: 1, fontWeight: 500 }}
+            variant="body2"
+            sx={{ color: "#2363eb", mb: 1, fontWeight: 500 }}
           >
             {label}
           </Typography>
@@ -43,12 +43,13 @@ const FormInput: FC<IFormInputProps> = ({ name, label, ...otherProps }) => {
             {...field}
             fullWidth
             disableUnderline
-            sx={{ borderRadius: '1rem' }}
+            sx={{ borderRadius: "1rem" }}
             error={!!errors[name]}
             {...otherProps}
           />
           <FormHelperText error={!!errors[name]}>
-            {errors[name] ? errors[name].message : ''}
+            ddd
+            {/* {errors[name] ? errors[name].message : ""} */}
           </FormHelperText>
         </FormControl>
       )}

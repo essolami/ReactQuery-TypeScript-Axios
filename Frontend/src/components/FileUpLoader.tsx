@@ -1,6 +1,6 @@
-import { FormHelperText } from '@mui/material';
-import React, { useCallback } from 'react';
-import { Controller, useController, useFormContext } from 'react-hook-form';
+import { FormHelperText } from "@mui/material";
+import React, { useCallback } from "react";
+import { Controller, useController, useFormContext } from "react-hook-form";
 
 type FileUpLoaderProps = {
   multiple?: boolean;
@@ -29,21 +29,21 @@ const FileUpLoader: React.FC<FileUpLoaderProps> = ({
   return (
     <Controller
       name={name}
-      defaultValue=''
+      defaultValue=""
       control={control}
       render={({ field: { name, onBlur, ref } }) => (
         <>
           <input
-            type='file'
+            type="file"
             name={name}
             onBlur={onBlur}
             ref={ref}
             onChange={onFileDrop}
             multiple={multiple}
-            accept='image/jpg, image/png, image/jpeg'
+            accept="image/jpg, image/png, image/jpeg"
           />
           <FormHelperText error={!!errors[name]}>
-            {errors[name] ? errors[name]?.message : ''}
+            {/* {errors[name]?.message} */}ddd
           </FormHelperText>
         </>
       )}
