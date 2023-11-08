@@ -1,11 +1,11 @@
-import { Suspense, lazy } from 'react';
-import type { RouteObject } from 'react-router-dom';
-import FullScreenLoader from '../components/FullScreenLoader';
-import Layout from '../components/layout';
-import RequireUser from '../components/requireUser';
-import HomePage from '../pages/home.page';
-import LoginPage from '../pages/login.page';
-import ProfilePage from '../pages/profile.page';
+import { Suspense, lazy } from "react";
+import type { RouteObject } from "react-router-dom";
+import FullScreenLoader from "../components/FullScreenLoader";
+import Layout from "../components/layout";
+import RequireUser from "../components/requireUser";
+import HomePage from "../pages/home.page";
+import LoginPage from "../pages/login.page";
+import ProfilePage from "../pages/profile.page";
 
 const Loadable =
   (Component: React.ComponentType<any>) => (props: JSX.IntrinsicAttributes) =>
@@ -15,31 +15,31 @@ const Loadable =
       </Suspense>
     );
 
-const RegisterPage = Loadable(lazy(() => import('../pages/register.page')));
+const RegisterPage = Loadable(lazy(() => import("../pages/register.page")));
 const UnauthorizePage = Loadable(
-  lazy(() => import('../pages/unauthorize.page'))
+  lazy(() => import("../pages/unauthorize.page"))
 );
 const EmailVerificationPage = Loadable(
-  lazy(() => import('../pages/verifyemail.page'))
+  lazy(() => import("../pages/verifyemail.page"))
 );
 
 const authRoutes: RouteObject = {
-  path: '*',
+  path: "*",
   children: [
     {
-      path: 'login',
+      path: "login",
       element: <LoginPage />,
     },
     {
-      path: 'register',
+      path: "register",
       element: <RegisterPage />,
     },
     {
-      path: 'verifyemail',
+      path: "verifyemail",
       element: <EmailVerificationPage />,
       children: [
         {
-          path: ':verificationCode',
+          path: ":verificationCode",
           element: <EmailVerificationPage />,
         },
       ],
@@ -48,7 +48,7 @@ const authRoutes: RouteObject = {
 };
 
 const normalRoutes: RouteObject = {
-  path: '*',
+  path: "*",
   element: <Layout />,
   children: [
     {
@@ -56,17 +56,17 @@ const normalRoutes: RouteObject = {
       element: <HomePage />,
     },
     {
-      path: 'profile',
-      element: <RequireUser allowedRoles={['user', 'admin']} />,
+      path: "profile",
+      element: <RequireUser allowedRoles={["user", "admin"]} />,
       children: [
         {
-          path: '',
+          path: "",
           element: <ProfilePage />,
         },
       ],
     },
     {
-      path: 'unauthorized',
+      path: "unauthorized",
       element: <UnauthorizePage />,
     },
   ],

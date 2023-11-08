@@ -1,7 +1,7 @@
 import axios from "axios";
 import { LoginInput } from "../pages/login.page";
-import { RegisterInput } from "../pages/register.page";
 import { GenericResponse, ILoginResponse, IUserResponse } from "./types";
+import { RegisterInput } from "../pages/register.page";
 
 const BASE_URL = "http://localhost:8000/api/";
 
