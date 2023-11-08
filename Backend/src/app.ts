@@ -1,5 +1,4 @@
 require('dotenv').config();
-import path from 'path';
 import express, { NextFunction, Request, Response } from 'express';
 import config from 'config';
 import morgan from 'morgan';
@@ -11,7 +10,8 @@ import authRouter from './routes/auth.routes';
 import userRouter from './routes/user.routes';
 import postRouter from './routes/post.routes';
 import validateEnv from './utils/validateEnv';
-import redisClient from './utils/connectRedis';
+import cluster from 'cluster';
+import os from 'os';
 
 // import nodemailer from 'nodemailer';
 // (async function () {
@@ -19,6 +19,7 @@ import redisClient from './utils/connectRedis';
 //   console.log(credentials);
 // })();
 
+const numCpus = os.cpus().length;
 AppDataSource.initialize()
   .then(async () => {
     // VALIDATE ENV
@@ -31,7 +32,6 @@ AppDataSource.initialize()
     app.set('views', `${__dirname}/views`);
 
     // MIDDLEWARE
-    app.use('/api/static', express.static(path.join(__dirname, '../public')));
 
     // 1. Body parser
     app.use(express.json({ limit: '10kb' }));
@@ -57,11 +57,11 @@ AppDataSource.initialize()
 
     // HEALTH CHECKER
     app.get('/api/healthChecker', async (_, res: Response) => {
-      const message = await redisClient.get('try');
+      // const message = await redisClient.get('try');
 
       res.status(200).json({
         status: 'success',
-        message,
+        message: 'Welcome to Node.js, we are happy to see you',
       });
     });
 
@@ -84,8 +84,20 @@ AppDataSource.initialize()
     );
 
     const port = config.get<number>('port');
-    app.listen(port);
+    if (cluster.isPrimary) {
+      for (let i = 0; i < numCpus; i++) {
+        cluster.fork();
+      }
 
-    console.log(`Server started on port: ${port}`);
+      cluster.on('exit', (worker, code, signal) => {
+        console.log(`Worker pid: ${worker.process.pid} died`);
+        cluster.fork();
+      });
+    } else {
+      app.listen(port);
+      console.log(`Server started with pid: ${process.pid} on port: ${port}`);
+    }
+    // app.listen(port);
+    // console.log(`Server started with pid: ${process.pid} on port: ${port}`);
   })
   .catch((error) => console.log(error));
